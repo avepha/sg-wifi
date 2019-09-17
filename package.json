@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "sudo ./node_modules/.bin/babel-node src/server.js",
-    "dev": "sudo ./node_modules/.bin/nodemon --exec babel-node src/server.js"
+    "dev": "sudo ./node_modules/.bin/nodemon --exec babel-node src/server.js",
+    "sta_dev": "sudo sh ./src/scripts/start_sta_dev.sh"
   },
   "devDependencies": {
     "@babel/core": "^7.6.0",
