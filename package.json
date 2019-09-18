@@ -4,13 +4,10 @@
   "main": "server.js",
   "license": "MIT",
   "scripts": {
-    "dev": "sudo ./node_modules/.bin/nodemon --exec babel-node src/server.js",
+    "dev": "sudo ./node_modules/.bin/nodemon src/server.js",
     "sta_dev": "sudo sh ./src/scripts/start_sta_dev.sh"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.0",
-    "@babel/node": "^7.6.1",
-    "@babel/preset-env": "^7.6.0",
     "nodemon": "^1.19.2"
   },
   "dependencies": {

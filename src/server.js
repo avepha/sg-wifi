@@ -1,12 +1,12 @@
-import {execSync} from 'child_process'
-import _ from 'lodash'
-import fs from 'fs'
-import express from 'express'
-import bodyParser from 'body-parser'
-import iwlist from 'wireless-tools/iwlist'
-import iwconfig from 'wireless-tools/iwconfig'
+const {execSync} = require('child_process')
+const _ = require('lodash')
+const fs = require('fs')
+const express = require('express')
+const bodyParser = require('body-parser')
+const iwlist = require('wireless-tools/iwlist')
+const iwconfig = require('wireless-tools/iwconfig')
 
-import {responseError} from './helper'
+const {responseError} = require('./helper')
 
 const secret = 'secret'
 const port = 4001
