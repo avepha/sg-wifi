@@ -1,12 +1,14 @@
-const {execSync} = require('child_process')
 const _ = require('lodash')
 const fs = require('fs')
+const {exec} = require('child_process')
 const express = require('express')
 const bodyParser = require('body-parser')
 const iwlist = require('wireless-tools/iwlist')
 const iwconfig = require('wireless-tools/iwconfig')
 
 const {responseError} = require('./helper')
+
+const wifiDevData = require('./data/wifi')
 
 const secret = 'secret'
 const port = 4001
@@ -22,72 +24,115 @@ app.get('/check', (req, res) => {
 })
 
 app.get('/list', (req, res) => {
-  iwlist.scan('wlan0', (err, networks) => {
-    if (err) {
-      res.json(err)
-    }
-    res.json(networks)
-  })
+  if (process.env.APP_ENV === 'production') {
+    iwlist.scan('wlan0', (err, networks) => {
+      if (err) {
+        res.json(err)
+      }
+      res.json(networks)
+    })
+  }
+
+  res.json(wifiDevData.wifis)
 })
 
 app.get('/mode', (req, res) => {
-  if (fs.existsSync('/run/hostapd.pid')) {
-    return res.json({
-      mode: 'ap',
-      data: {
-        name: 'sg-3.7'
+  if (process.env.APP_ENV === 'production') {
+    if (fs.existsSync('/run/hostapd.pid')) {
+      return res.json({
+        mode: 'ap',
+        data: {
+          ssid: '@sg-lts'
+        }
+      })
+    }
+
+    iwconfig.status(function (err, networks) {
+      if (err) {
+        res.json(err)
       }
+
+      res.json({
+        mode: 'sta',
+        data: _.isNil(networks) && networks.length > 0 ? networks[0] : null
+      })
     })
   }
 
-  iwconfig.status(function (err, status) {
-    if (err) {
-      res.json(err)
-    }
-    res.json({
-      mode: 'sta',
-      data: status
-    })
+  res.json({
+    mode: 'sta',
+    data: wifiDevData.sta
   })
+  //res.json({
+  //  mode: 'ap',
+  //  data: {
+  //    ssid: '@sg-lts'
+  //  }
+  //})
 })
 
 app.post('/ap', (req, res) => {
-    const {ssid, password} = req.body
+  const {ssid, password} = req.body
 
-    if (_.isNil(ssid) || _.isNil(password)) {
-      return responseError(res, {
-        statusCode: 403,
-        message: 'Ssid or password is not specify',
-        code: 'invalid-input-error'
-      })
-    }
-
-    if (ssid.length < 1 || password.length < 8) {
-      return responseError(res, {
-        statusCode: 403,
-        message: 'Ssid or password should have at least 8 characters',
-        code: 'invalid-input-error'
-      })
-    }
-
-
-    execSync(`sudo sh ${__dirname}/scripts/start_ap.sh ${ssid} ${password}`)
-
-    res.json({
-      message: 'successful'
+  if (_.isNil(ssid) || _.isNil(password)) {
+    return responseError(res, {
+      statusCode: 403,
+      message: 'Ssid or password is not specify',
+      code: 'invalid-input-error'
     })
   }
-)
 
-app.post('/sta')
-/*
-GET
-  - list available wifi
-  - current mode
-POST
-  - set ap mode
-  - set sta mode
- */
+  if (ssid.length < 1 || password.length < 8) {
+    return responseError(res, {
+      statusCode: 403,
+      message: 'Ssid or password should have at least 8 characters',
+      code: 'invalid-input-error'
+    })
+  }
+
+  if (process.env.APP_ENV === 'production') {
+    exec(`sudo sh ${__dirname}/scripts/start_ap.sh ${ssid} ${password}`)
+  }
+
+  res.json({
+    message: 'pending',
+    mode: 'ap',
+    data: {
+      ssid,
+    }
+  })
+})
+
+app.post('/sta', (req, res) => {
+  const {ssid, password} = req.body
+  if (_.isNil(ssid) || _.isNil(password)) {
+    return responseError(res, {
+      statusCode: 403,
+      message: 'Ssid or password is not specify',
+      code: 'invalid-input-error'
+    })
+  }
+
+  if (ssid.length < 1 || password.length < 8) {
+    return responseError(res, {
+      statusCode: 403,
+      message: 'Ssid or password should have at least 8 characters',
+      code: 'invalid-input-error'
+    })
+  }
+
+  if (process.env.APP_ENV === 'production') {
+    exec(`sudo sh ${__dirname}/scripts/start_sta.sh ${ssid} ${password}`)
+  }
+
+  res.json({
+    message: 'pending',
+    mode: 'sta',
+    data: {
+      ssid,
+    }
+  })
+})
 
 app.listen(port, () => {
   console.log('Listening on port', port)

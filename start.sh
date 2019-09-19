@@ -1,3 +1,3 @@
 #!/bin/bash
 cd "$(dirname "$0")"
-sudo node src/server.js
+sudo APP_ENV=production node src/server.js
