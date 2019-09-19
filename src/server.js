@@ -32,8 +32,9 @@ app.get('/list', (req, res) => {
       res.json(networks)
     })
   }
-
-  res.json(wifiDevData.wifis)
+  else {
+    res.json(wifiDevData.wifis)
+  }
 })
 
 app.get('/mode', (req, res) => {
@@ -54,21 +55,22 @@ app.get('/mode', (req, res) => {
 
       res.json({
         mode: 'sta',
-        data: _.isNil(networks) && networks.length > 0 ? networks[0] : null
+        data: !_.isNil(networks) && networks.length > 0 ? networks[0] : null
       })
     })
   }
-
-  res.json({
-    mode: 'sta',
-    data: wifiDevData.sta
-  })
-  //res.json({
-  //  mode: 'ap',
-  //  data: {
-  //    ssid: '@sg-lts'
-  //  }
-  //})
+  else {
+    res.json({
+      mode: 'sta',
+      data: wifiDevData.sta
+    })
+    //res.json({
+    //  mode: 'ap',
+    //  data: {
+    //    ssid: '@sg-lts'
+    //  }
+    //})
+  }
 })
 
 app.post('/ap', (req, res) => {
