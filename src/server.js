@@ -5,6 +5,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const iwlist = require('wireless-tools/iwlist')
 const iwconfig = require('wireless-tools/iwconfig')
+const cors = require('cors')
 
 const {responseError} = require('./helper')
 
@@ -13,8 +14,9 @@ const wifiDevData = require('./data/wifi')
 const secret = 'secret'
 const port = 4001
 const app = express()
-app.use(bodyParser.json({type: 'application/*+json'}))
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
+app.use(cors())
 
 app.get('/check', (req, res) => {
   res.json({
