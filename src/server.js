@@ -9,7 +9,7 @@ const cors = require('cors')
 
 const {responseError} = require('./helper')
 
-const wifiDevData = require('./data/wifi')
+const wifiDevData = require('./mock-data/wifi')
 
 const secret = 'secret'
 const port = 4001
