@@ -127,6 +127,7 @@ app.post('/sta', (req, res) => {
 
   if (process.env.APP_ENV === 'production') {
     exec(`sudo sh ${__dirname}/scripts/start_sta.sh ${ssid} ${password}`)
+    exec(`sudo sh ${__dirname}/scripts/check_and_switch_to_ap.sh`)
   }
 
   res.json({
