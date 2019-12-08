@@ -11,7 +11,6 @@ const {responseError} = require('./helper')
 
 const wifiDevData = require('./mock-data/wifi')
 
-const secret = 'secret'
 const port = 4001
 const app = express()
 app.use(bodyParser.json())
