@@ -94,7 +94,7 @@ app.post('/ap', (req, res) => {
   }
 
   if (process.env.APP_ENV === 'production') {
-    exec(`sudo sh ${__dirname}/scripts/start_ap.sh ${ssid} ${password}`)
+    exec(`sudo sh ${__dirname}/scripts/start_ap.sh "${ssid}" "${password}"`)
   }
 
   res.json({
