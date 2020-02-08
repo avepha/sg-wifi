@@ -22,6 +22,7 @@ sudo systemctl disable hostapd
 sudo systemctl disable dnsmasq
 sudo systemctl stop hostapd
 sudo systemctl stop dnsmasq
-sudo service dhcpcd restart
-sudo wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf
-sudo dhcpcd wlan0
+#sudo service dhcpcd restart
+#sudo wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf
+#sudo dhcpcd wlan0
+sudo reboot

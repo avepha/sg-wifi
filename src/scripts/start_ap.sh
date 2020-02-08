@@ -18,13 +18,14 @@ else
   exit 1
 fi
 
-if [ -f $hostapd_pid ]; then
+if [ -f $hostapd_pid ]; then # ap is working
   sudo systemctl restart hostapd
   sudo systemctl restart dnsmasq
 else
-  sudo service dhcpcd restart
+#  sudo service dhcpcd restart
   sudo systemctl enable hostapd
   sudo systemctl enable dnsmasq
-  sudo systemctl start hostapd
-  sudo systemctl start dnsmasq
+#  sudo systemctl start hostapd
+#  sudo systemctl start dnsmasq
+  sudo reboot
 fi
