@@ -14,7 +14,7 @@ do
     echo "[Info] STA mode is not active\r"
     counter=$((counter+1))
     if [ $counter -ge $timeout ]; then
-      sudo sh $BASE_DIR/start_ap.sh #start ap mode after waiting for 30s
+      sudo sh $BASE_DIR/preconfig/start_ap.sh #start ap mode after waiting for 30s
       counter=0
       echo "[Info] Reset wifi\r"
     fi

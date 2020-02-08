@@ -15,8 +15,8 @@ if [ $(echo $2 | wc -c) -lt 1 ]; then
 fi
 
 BASE_DIR=$(dirname "$0")
-sudo cp $BASE_DIR/sta_dhcpcd.conf /etc/dhcpcd.conf
-sudo cp $BASE_DIR/wpa.conf /etc/wpa_supplicant/wpa_supplicant.conf
+sudo cp $BASE_DIR/preconfig/sta_dhcpcd.conf /etc/dhcpcd.conf
+sudo cp $BASE_DIR/preconfig/wpa.conf /etc/wpa_supplicant/wpa_supplicant.conf
 sudo wpa_passphrase $1 $2 >>  /etc/wpa_supplicant/wpa_supplicant.conf
 sudo systemctl disable hostapd
 sudo systemctl disable dnsmasq
