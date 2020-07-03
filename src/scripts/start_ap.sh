@@ -18,14 +18,21 @@ else
   exit 1
 fi
 
+sudo pkill -9 wpa_supplicant &
 if [ -f $hostapd_pid ]; then # ap is working
-  sudo systemctl restart hostapd
-  sudo systemctl restart dnsmasq
+  echo "updating wifi from ap => ap"
+  sudo systemctl restart hostapd &
+  sudo systemctl restart dnsmasq &
+  wait
+  echo "done"
 else
-  sudo service dhcpcd restart
-  sudo systemctl enable hostapd
-  sudo systemctl enable dnsmasq
-#  sudo systemctl start hostapd
-#  sudo systemctl start dnsmasq
-  sudo reboot
+  echo "Changing wifi from sta => ap"
+  sudo service dhcpcd restart &
+  sudo systemctl enable hostapd &
+  sudo systemctl enable dnsmasq &
+  wait
+  sudo systemctl start hostapd &
+  sudo systemctl start dnsmasq &
+  wait
+  echo "done"
 fi
