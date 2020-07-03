@@ -14,7 +14,7 @@ button = Button(buttonPin, hold_time=5)
 led6 = LED(ledPin6)
 led4 = LED(ledPin4)
 
-startApFile = f'{dir_path}/src/scripts/start_ap_default.sh'
+startApFile = f'{dir_path}/scripts/start_ap_default.sh'
 print("[Info] Reset to ap mode service started...")
 
 def led_blink():
