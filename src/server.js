@@ -41,12 +41,21 @@ app.get('/list', (req, res) => {
 app.get('/mode', (req, res) => {
   if (process.env.APP_ENV === 'production') {
     if (fs.existsSync('/run/hostapd.pid')) {
-      return res.json({
-        mode: 'ap',
-        data: {
-          ssid: '@sg-lts'
+      try {
+        const hostapdConf = fs.readFileSync('/etc/hostapd/hostapd.conf').toString()
+        const ssid = hostapdConf.match(/(\w+=.+)/gm).find((s) => s.startsWith('ssid='))
+        if (ssid) {
+          return res.json({
+            mode: 'ap',
+            data: {
+              ssid: ssid.split('=')[1]
+            }
+          })
         }
-      })
+      }
+      catch (e) {
+        return res.json(e)
+      }
     }
 
     iwconfig.status(function (err, networks) {
