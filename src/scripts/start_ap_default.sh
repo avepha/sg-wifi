@@ -1,9 +1,8 @@
 #!/bin/bash
 hostapd_pid=/run/hostapd.pid
 BASE_DIR=$(dirname "$0")
-getId=$(ifconfig wlan0 | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}' | sed -e "s/://g" | cut -c7-12)
-ssid=@sg-lts-$getId
-
+ssid=$($"$BASE_DIR/get_ssid.sh")
+echo "$ssid"
 sudo cp $BASE_DIR/preconfig/ap_dhcpcd.conf /etc/dhcpcd.conf
 sudo cp $BASE_DIR/preconfig/ap_hostapd.conf /etc/hostapd/hostapd.conf
 echo "ssid=$ssid" >>/etc/hostapd/hostapd.conf

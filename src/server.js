@@ -106,6 +106,30 @@ app.post('/ap', (req, res) => {
     exec(`sudo sh ${__dirname}/scripts/start_ap.sh "${ssid}" "${password}"`)
   }
 
+  exec(`$${__dirname}/scripts/get_ssid.sh`, (e, stdout, stderr) => {
+    if (e || stderr) {
+      return responseError(res, {
+        statusCode: 403,
+        message: `${e ? e : stderr}`,
+        code: 'invalid-command-error'
+      })
+    }
+
+    res.json({
+      message: 'pending',
+      mode: 'ap',
+      data: {
+        ssid: stdout,
+      }
+    })
+  })
+})
+
+app.post('/ap/defaults', (req, res) => {
+  if (process.env.APP_ENV === 'production') {
+    exec(`sudo sh ${__dirname}/scripts/start_ap_default.sh`)
+  }
+
   res.json({
     message: 'pending',
     mode: 'ap',
@@ -114,6 +138,8 @@ app.post('/ap', (req, res) => {
     }
   })
 })
+
+
 
 app.post('/sta', (req, res) => {
   const {ssid, password} = req.body
