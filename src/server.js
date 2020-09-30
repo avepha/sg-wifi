@@ -120,15 +120,7 @@ app.post('/ap/defaults', (req, res) => {
     exec(`sudo bash ${__dirname}/scripts/start_ap_default.sh`)
   }
 
-  exec(`$${__dirname}/scripts/get_ssid.sh`, (e, stdout, stderr) => {
-    if (e || stderr) {
-      return responseError(res, {
-        statusCode: 403,
-        message: `${e ? e : stderr}`,
-        code: 'invalid-command-error'
-      })
-    }
-
+  exec(`$${__dirname}/scripts/get_ssid.sh`, (e, stdout) => {
     res.json({
       message: 'pending',
       mode: 'ap',
