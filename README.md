@@ -11,7 +11,7 @@
 
 ### Run on raspberry pi
 ```
-    sudo sh /home/pi/sg-wifi/start.sh
+    sudo bash /home/pi/sg-wifi/start.sh
 ```
 
 

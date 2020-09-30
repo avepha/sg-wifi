@@ -2,7 +2,7 @@
 hostapd_pid=/run/hostapd.pid
 BASE_DIR=$(dirname "$0")
 ssid=$($"$BASE_DIR/get_ssid.sh")
-echo "$ssid"
+
 sudo cp $BASE_DIR/preconfig/ap_dhcpcd.conf /etc/dhcpcd.conf
 sudo cp $BASE_DIR/preconfig/ap_hostapd.conf /etc/hostapd/hostapd.conf
 echo "ssid=$ssid" >>/etc/hostapd/hostapd.conf

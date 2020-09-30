@@ -11,7 +11,7 @@ elif [ $(iwgetid | wc -c) -ge 5 ]; then
   echo "[Info] STA mode is active $iwgetid\r"
 elif [ $(iwgetid | wc -c) -lt 5 ]; then
   echo "[Info] STA mode is not active\r"
-  sudo sh $BASE_DIR/preconfig/start_ap.sh #start ap mode after waiting for 30s
+  sudo bash $BASE_DIR/preconfig/start_ap.sh #start ap mode after waiting for 30s
   echo "[Info] Reset wifi\r"
 fi
 

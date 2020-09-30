@@ -103,7 +103,7 @@ app.post('/ap', (req, res) => {
   }
 
   if (process.env.APP_ENV === 'production') {
-    exec(`sudo sh ${__dirname}/scripts/start_ap.sh "${ssid}" "${password}"`)
+    exec(`sudo bash ${__dirname}/scripts/start_ap.sh "${ssid}" "${password}"`)
   }
 
   res.json({
@@ -117,7 +117,7 @@ app.post('/ap', (req, res) => {
 
 app.post('/ap/defaults', (req, res) => {
   if (process.env.APP_ENV === 'production') {
-    exec(`sudo sh ${__dirname}/scripts/start_ap_default.sh`)
+    exec(`sudo bash ${__dirname}/scripts/start_ap_default.sh`)
   }
 
   exec(`$${__dirname}/scripts/get_ssid.sh`, (e, stdout, stderr) => {
@@ -160,8 +160,8 @@ app.post('/sta', (req, res) => {
   }
 
   if (process.env.APP_ENV === 'production') {
-    exec(`sudo sh ${__dirname}/scripts/start_sta.sh "${ssid}" "${password}"`)
-    exec(`sudo sh ${__dirname}/scripts/check_and_switch_to_ap.sh`)
+    exec(`sudo bash ${__dirname}/scripts/start_sta.sh "${ssid}" "${password}"`)
+    exec(`sudo bash ${__dirname}/scripts/check_and_switch_to_ap.sh`)
   }
 
   res.json({
