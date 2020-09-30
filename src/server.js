@@ -139,8 +139,6 @@ app.post('/ap/defaults', (req, res) => {
   })
 })
 
-
-
 app.post('/sta', (req, res) => {
   const {ssid, password} = req.body
   if (_.isNil(ssid) || _.isNil(password)) {
