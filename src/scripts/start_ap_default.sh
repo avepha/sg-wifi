@@ -1,7 +1,12 @@
 #!/bin/bash
 hostapd_pid=/run/hostapd.pid
 BASE_DIR=$(dirname "$0")
-ssid=$("$BASE_DIR/get_ssid.sh")
+if [ -z "$WIFI_NAME" ]
+then
+  ssid=$("$BASE_DIR/get_ssid.sh")
+else
+  ssid=$WIFI_NAME
+fi
 
 sudo cp $BASE_DIR/preconfig/ap_dhcpcd.conf /etc/dhcpcd.conf
 sudo cp $BASE_DIR/preconfig/ap_hostapd.conf /etc/hostapd/hostapd.conf
